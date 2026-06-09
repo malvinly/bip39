@@ -6,6 +6,10 @@ Self-contained implementation built on the browser's native `crypto` and `Subtle
 
 > ⚠️ Do not use with cryptocurrency wallets. Do not use the phrases it produces to secure real funds.
 
+## GitHub Pages
+
+https://malvinly.github.io/bip39/
+
 ## Changing the word count
 
 `generateMnemonic()` accepts an optional word count parameter. BIP39 supports 12, 15, 18, 21, or 24 words. Any other value throws an exception.
