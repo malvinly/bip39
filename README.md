@@ -15,4 +15,4 @@ generateMnemonic();     // defaults to 12
 generateMnemonic(24);   // 24 words
 ```
 
-Also update `grid-template-columns` in `src/index.html` if you want a different number of words per row.
+Also update `grid-template-columns` in `index.html` if you want a different number of words per row.
