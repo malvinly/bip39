@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>BIP39 Mnemonic Generator</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #111;
+      color: #d4d4d4;
+      font-family: monospace;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 30vh;
+    }
+
+    #w {
+      display: grid;
+      grid-template-columns: repeat(4, 10rem);
+      gap: 2rem 4rem;
+      text-align: center;
+    }
+
+    #w span {
+      font-size: 2.5rem;
+      letter-spacing: .04em;
+    }
+
+    #regen {
+      margin-top: 4rem;
+      background: none;
+      border: 1px solid #555;
+      color: #d4d4d4;
+      font-family: inherit;
+      font-size: 1rem;
+      padding: .6rem 1.4rem;
+      cursor: pointer;
+    }
+
+    #regen:hover {
+      border-color: #d4d4d4;
+    }
+  </style>
+</head>
+<body>
+  <div id="w"></div>
+  <button id="regen">Regenerate</button>
+  <script src="lib/bip39.js"></script>
+  <script>
+    var grid = document.getElementById('w');
+
+    function render() {
+      generateMnemonic().then(function(mnemonic) {
+        grid.textContent = '';
+        mnemonic.split(' ').forEach(function(word) {
+          var s = document.createElement('span');
+          s.textContent = word;
+          grid.appendChild(s);
+        });
+      }).catch(function(err) {
+        grid.textContent = 'Error: ' + err.message;
+      });
+    }
+
+    document.getElementById('regen').addEventListener('click', render);
+    render();
+  </script>
+</body>
+</html>
