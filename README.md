@@ -6,6 +6,18 @@ Self-contained implementation built on the browser's native `crypto` and `Subtle
 
 > ⚠️ Do not use with cryptocurrency wallets. Do not use the phrases it produces to secure real funds.
 
+## Entropy
+
+Random entropy + a SHA-256 checksum are split into 11-bit groups, each mapping to one of 2048 wordlist words.
+
+| Words | Entropy     | Checksum | Total bits |
+|------:|------------:|---------:|-----------:|
+| 12    | 128 bits    | 4 bits   | 132 bits   |
+| 15    | 160 bits    | 5 bits   | 165 bits   |
+| 18    | 192 bits    | 6 bits   | 198 bits   |
+| 21    | 224 bits    | 7 bits   | 231 bits   |
+| 24    | 256 bits    | 8 bits   | 264 bits   |
+
 ## GitHub Pages
 
 https://malvinly.github.io/bip39/
