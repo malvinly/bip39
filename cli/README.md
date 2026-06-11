@@ -19,6 +19,8 @@ Bip39Cli [count] [options]
 | `--help` | Show help and usage information |
 | `--version` | Show version information |
 
+The exit code is `0` on success and `1` on invalid arguments.
+
 ## Examples
 
 Run from source with `dotnet run` (arguments after `--` are passed to the tool):
@@ -37,6 +39,8 @@ dotnet run --project cli -- --no-colors
 Once published or installed on your `PATH`, invoke it directly as `Bip39Cli [count] [options]`.
 
 ## Build
+
+Requires the [.NET 10 SDK](https://dotnet.microsoft.com/download).
 
 ```sh
 dotnet build cli
