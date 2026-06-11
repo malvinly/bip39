@@ -34,3 +34,14 @@ generateMnemonic(24);   // 24 words
 ```
 
 Also update `grid-template-columns` in `index.html` if you want a different number of words per row.
+
+## CLI
+
+A .NET command-line tool. Requires the [.NET 10 SDK](https://dotnet.microsoft.com/download).
+
+```sh
+dotnet run --project cli         # 12 words
+dotnet run --project cli -- 24   # 24 words
+```
+
+See [cli/README.md](cli/README.md) for options, examples, and build instructions.
