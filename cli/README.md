@@ -17,7 +17,6 @@ Bip39Cli [count] [options]
 | `count` | Number of words (12, 15, 18, 21, or 24). Default: 12 |
 | `--no-colors` | Disable colored output |
 | `--help` | Show help and usage information |
-| `--version` | Show version information |
 
 The exit code is `0` on success and `1` on invalid arguments.
 
