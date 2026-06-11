@@ -65,7 +65,7 @@
           grid.appendChild(s);
         });
       }).catch(function(err) {
-        grid.textContent = 'Error: ' + err.message;
+        grid.textContent = 'Error: ' + (err && err.message ? err.message : String(err));
       });
     }
 

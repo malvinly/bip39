@@ -258,17 +258,21 @@ const WORDLIST = [
 ];
 
 const WORD_COUNT_PARAMS = {
-  12: { entropyBytes: 16, checksumBits: 4,  totalBits: 132 },
-  15: { entropyBytes: 20, checksumBits: 5,  totalBits: 165 },
-  18: { entropyBytes: 24, checksumBits: 6,  totalBits: 198 },
-  21: { entropyBytes: 28, checksumBits: 7,  totalBits: 231 },
-  24: { entropyBytes: 32, checksumBits: 8,  totalBits: 264 },
+  12: { entropyBytes: 16, checksumBits: 4 },
+  15: { entropyBytes: 20, checksumBits: 5 },
+  18: { entropyBytes: 24, checksumBits: 6 },
+  21: { entropyBytes: 28, checksumBits: 7 },
+  24: { entropyBytes: 32, checksumBits: 8 },
 };
 
 async function generateMnemonic(wordCount = 12) {
   const params = WORD_COUNT_PARAMS[wordCount];
   if (!params) {
     throw new Error('Invalid word count: ' + wordCount + '. Must be 12, 15, 18, 21, or 24.');
+  }
+
+  if (!crypto.subtle) {
+    throw new Error('Web Crypto API requires a secure context (HTTPS or localhost).');
   }
 
   const entropy = crypto.getRandomValues(new Uint8Array(params.entropyBytes));
@@ -283,8 +287,10 @@ async function generateMnemonic(wordCount = 12) {
   bits += hash[0].toString(2).padStart(8, '0').slice(0, params.checksumBits);
 
   const words = [];
-  for (let i = 0; i < params.totalBits; i += 11) {
-    words.push(WORDLIST[parseInt(bits.slice(i, i + 11), 2)]);
+  for (let i = 0; i < wordCount * 11; i += 11) {
+    const word = WORDLIST[parseInt(bits.slice(i, i + 11), 2)];
+    if (word === undefined) throw new Error('BIP39 word index out of range at bit offset ' + i);
+    words.push(word);
   }
 
   return words.join(' ');
