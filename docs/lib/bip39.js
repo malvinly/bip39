@@ -271,7 +271,7 @@ async function generateMnemonic(wordCount = 12) {
     throw new Error('Invalid word count: ' + wordCount + '. Must be 12, 15, 18, 21, or 24.');
   }
 
-  if (!crypto.subtle) {
+  if (typeof crypto === 'undefined' || !crypto.getRandomValues || !crypto.subtle) {
     throw new Error('Web Crypto API requires a secure context (HTTPS or localhost).');
   }
 

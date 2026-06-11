@@ -21,19 +21,23 @@ Bip39Cli [count] [options]
 
 ## Examples
 
+Run from source with `dotnet run` (arguments after `--` are passed to the tool):
+
 ```sh
 # Generate a 12-word mnemonic
-Bip39Cli
+dotnet run --project cli
 
 # Generate a 24-word mnemonic
-Bip39Cli 24
+dotnet run --project cli -- 24
 
 # Generate without colors
-Bip39Cli --no-colors
+dotnet run --project cli -- --no-colors
 ```
+
+Once published or installed on your `PATH`, invoke it directly as `Bip39Cli [count] [options]`.
 
 ## Build
 
 ```sh
-dotnet build --project cli
+dotnet build cli
 ```

@@ -5,6 +5,14 @@ using System.Security.Cryptography;
 var countArgument = new Argument<int>("count") { Description = "Number of words (12, 15, 18, 21, or 24)" };
 countArgument.DefaultValueFactory = _ => 12;
 countArgument.Arity = ArgumentArity.ZeroOrOne;
+countArgument.Validators.Add(result =>
+{
+    var value = result.GetValue(countArgument);
+    if (!BipParams.WordCountParams.ContainsKey(value))
+    {
+        result.AddError($"Invalid word count: {value}. Must be 12, 15, 18, 21, or 24.");
+    }
+});
 
 var noColorsOption = new Option<bool>("--no-colors") { Description = "Disable colored output" };
 
@@ -17,11 +25,7 @@ rootCommand.SetAction(parseResult =>
     var count = parseResult.GetValue(countArgument);
     var noColors = parseResult.GetValue(noColorsOption);
 
-    if (!BipParams.WordCountParams.TryGetValue(count, out var p))
-    {
-        Console.Error.WriteLine($"Invalid word count: {count}. Must be 12, 15, 18, 21, or 24.");
-        return 1;
-    }
+    var p = BipParams.WordCountParams[count];
 
     var entropy = RandomNumberGenerator.GetBytes(p.EntropyBytes);
     var hash = SHA256.HashData(entropy);

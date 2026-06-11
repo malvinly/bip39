@@ -4,11 +4,13 @@ A minimal static site that generates a 12-word BIP39 mnemonic using the English 
 
 Self-contained implementation built on the browser's native `crypto` and `SubtleCrypto` APIs.
 
+This repo contains two components: the static web demo (`docs/`) and a .NET CLI (`cli/`) — see [cli/README.md](cli/README.md).
+
 > ⚠️ Do not use with cryptocurrency wallets. Do not use the phrases it produces to secure real funds.
 
 ## Entropy
 
-Random entropy + a SHA-256 checksum are split into 11-bit groups, each mapping to one of 2048 wordlist words.
+Random entropy is generated, then the leading bits of its SHA-256 hash are appended as a checksum. The combined bits are split into 11-bit groups, each mapping to one of 2048 wordlist words.
 
 | Words | Entropy     | Checksum | Total bits |
 |------:|------------:|---------:|-----------:|
@@ -18,7 +20,7 @@ Random entropy + a SHA-256 checksum are split into 11-bit groups, each mapping t
 | 21    | 224 bits    | 7 bits   | 231 bits   |
 | 24    | 256 bits    | 8 bits   | 264 bits   |
 
-## GitHub Pages
+## Live demo
 
 https://malvinly.github.io/bip39/
 
