@@ -23,7 +23,7 @@ rootCommand.Add(noColorsOption);
 rootCommand.SetAction(parseResult =>
 {
     var count = parseResult.GetValue(countArgument);
-    var noColors = parseResult.GetValue(noColorsOption);
+    var noColors = parseResult.GetValue(noColorsOption) || Console.IsOutputRedirected;
 
     var p = BipParams.WordCountParams[count];
 
