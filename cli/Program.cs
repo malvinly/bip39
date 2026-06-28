@@ -2,27 +2,31 @@ using System.CommandLine;
 using System.CommandLine.Parsing;
 using System.Security.Cryptography;
 
-var countArgument = new Argument<int>("count") { Description = "Number of words (12, 15, 18, 21, or 24)" };
-countArgument.DefaultValueFactory = _ => 12;
-countArgument.Arity = ArgumentArity.ZeroOrOne;
-countArgument.Validators.Add(result =>
+var countOption = new Option<int>("--count", "-n") { Description = "Number of words (12, 15, 18, 21, or 24)" };
+countOption.DefaultValueFactory = _ => 12;
+countOption.Validators.Add(result =>
 {
-    var value = result.GetValue(countArgument);
+    var value = result.GetValue(countOption);
     if (!BipParams.WordCountParams.ContainsKey(value))
     {
         result.AddError($"Invalid word count: {value}. Must be 12, 15, 18, 21, or 24.");
     }
 });
 
+var separatorOption = new Option<string>("--separator", "-s") { Description = "Separator between words" };
+separatorOption.DefaultValueFactory = _ => " ";
+
 var noColorsOption = new Option<bool>("--no-colors") { Description = "Disable colored output" };
 
 var rootCommand = new RootCommand("BIP39 mnemonic generator");
-rootCommand.Add(countArgument);
+rootCommand.Add(countOption);
+rootCommand.Add(separatorOption);
 rootCommand.Add(noColorsOption);
 
 rootCommand.SetAction(parseResult =>
 {
-    var count = parseResult.GetValue(countArgument);
+    var count = parseResult.GetValue(countOption);
+    var separator = parseResult.GetValue(separatorOption)!;
     var noColors = parseResult.GetValue(noColorsOption) || Console.IsOutputRedirected;
 
     var p = BipParams.WordCountParams[count];
@@ -41,26 +45,19 @@ rootCommand.SetAction(parseResult =>
 
     if (noColors)
     {
-        Console.WriteLine(string.Join(' ', words));
+        Console.WriteLine(string.Join(separator, words));
     }
     else
     {
         var colors = new[] { ConsoleColor.Cyan, ConsoleColor.Yellow, ConsoleColor.Magenta };
-        try
+        for (var i = 0; i < words.Count; i++)
         {
-            for (var i = 0; i < words.Count; i++)
-            {
-                Console.ForegroundColor = colors[(i / 3) % colors.Length];
-                Console.Write(words[i]);
-                Console.ResetColor();
-                Console.Write(i < words.Count - 1 ? " " : "");
-            }
-            Console.WriteLine();
-        }
-        finally
-        {
+            Console.ForegroundColor = colors[(i / 3) % colors.Length];
+            Console.Write(words[i]);
             Console.ResetColor();
+            if (i < words.Count - 1) Console.Write(separator);
         }
+        Console.WriteLine();
     }
 
     return 0;
