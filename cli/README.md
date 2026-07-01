@@ -7,14 +7,15 @@ A .NET command-line tool that generates BIP39 mnemonic phrases.
 ## Usage
 
 ```
-Bip39Cli [count] [options]
+Bip39Cli [options]
 ```
 
 ## Options
 
 | Option | Description |
 |--------|-------------|
-| `count` | Number of words (12, 15, 18, 21, or 24). Default: 12 |
+| `--count`, `-n` | Number of words (12, 15, 18, 21, or 24). Default: 12 |
+| `--separator`, `-s` | Separator between words. Default: space |
 | `--no-colors` | Disable colored output |
 | `--help` | Show help and usage information |
 
@@ -29,7 +30,7 @@ Run from source with `dotnet run` (arguments after `--` are passed to the tool):
 dotnet run --project cli
 
 # Generate a 24-word mnemonic
-dotnet run --project cli -- 24
+dotnet run --project cli -- -n 24
 
 # Generate without colors
 dotnet run --project cli -- --no-colors
